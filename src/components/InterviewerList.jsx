@@ -10,8 +10,10 @@ export default function InterviewerList(props) {
           <InterviewerListItem
             key={interviewer.id}
             {...interviewer}
-            selected={interviewer.id === props.interviewer}
-            setInterviewer={(event) => props.onChange(interviewer.id)}
+            selected={props.value === interviewer.id}
+            setInterviewer={(event) => {
+              props.onChange(interviewer.id);
+            }}
           />
         );
       })
