@@ -26,7 +26,7 @@ export const useApplicationData = () => {
 
   const setDay = (day) => setState({ ...state, day });
 
-  const bookInterview = (id, interview) => {
+  const spotsRemaining = (doIncrement) => {
     let dayIndex;
     const day = {
       ...state.days.find((value, index) => {
@@ -34,10 +34,17 @@ export const useApplicationData = () => {
         return (value.name = state.day);
       }),
     };
-    day.spots--;
+
+    doIncrement ? day.spots++ : day.spots--;
 
     const days = [...state.days];
     days[dayIndex] = day;
+
+    return days;
+  };
+
+  const bookInterview = (id, interview) => {
+    const days = spotsRemaining(false);
 
     const appointment = {
       ...state.appointments[id],
@@ -58,17 +65,7 @@ export const useApplicationData = () => {
   };
 
   const cancelInterview = (id) => {
-    let dayIndex;
-    const day = {
-      ...state.days.find((value, index) => {
-        dayIndex = index;
-        return (value.name = state.day);
-      }),
-    };
-    day.spots++;
-
-    const days = [...state.days];
-    days[dayIndex] = day;
+    const days = spotsRemaining(true);
 
     const appointment = {
       ...state.appointments[id],
