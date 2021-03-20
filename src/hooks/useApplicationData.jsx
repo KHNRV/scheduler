@@ -27,20 +27,13 @@ export const useApplicationData = () => {
   const setDay = (day) => setState({ ...state, day });
 
   const spotsRemaining = (doIncrement) => {
-    let dayIndex;
-    const day = {
-      ...state.days.find((value, index) => {
-        dayIndex = index;
-        return (value.name = state.day);
-      }),
-    };
-
-    doIncrement ? day.spots++ : day.spots--;
-
-    const days = [...state.days];
-    days[dayIndex] = day;
-
-    return days;
+    return state.days.map((day) => {
+      const copyDay = { ...day };
+      if (day.name === state.day) {
+        doIncrement ? copyDay.spots++ : copyDay.spots--;
+      }
+      return copyDay;
+    });
   };
 
   const bookInterview = (id, interview) => {
