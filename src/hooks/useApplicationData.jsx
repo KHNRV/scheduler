@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useEffect, useReducer, useState } from "react";
+import useWebSockets from "./useWebSocket";
 
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-const SET_INTERVIEW = "SET_INTERVIEW";
+export const SET_INTERVIEW = "SET_INTERVIEW";
 
 function reducer(state, action) {
   switch (action.type) {
@@ -17,16 +18,15 @@ function reducer(state, action) {
         interviewers: action.interviewers,
       };
     case SET_INTERVIEW: {
-      const days = spotsRemaining(state, action.interview);
-
       const appointment = {
         ...state.appointments[action.id],
-        interview: { ...action.interview },
+        interview: action.interview,
       };
       const appointments = {
         ...state.appointments,
         [action.id]: appointment,
       };
+      const days = spotsRemaining(state, appointments);
       return { ...state, appointments, days };
     }
     default:
@@ -36,12 +36,15 @@ function reducer(state, action) {
   }
 }
 
-function spotsRemaining(state, doDecrement) {
+function spotsRemaining(state, appointments) {
   return state.days.map((day) => {
     const copyDay = { ...day };
-    if (day.name === state.day) {
-      doDecrement ? copyDay.spots-- : copyDay.spots++;
-    }
+    copyDay.spots = day.appointments.reduce((acc, curr) => {
+      if (appointments[curr].interview) {
+        return acc - 1;
+      }
+      return acc;
+    }, 5);
     return copyDay;
   });
 }
@@ -69,6 +72,8 @@ export const useApplicationData = () => {
     });
   }, []);
 
+  useWebSockets(dispatch);
+
   function setDay(day) {
     dispatch({ type: SET_DAY, day });
   }
@@ -89,7 +94,6 @@ export const useApplicationData = () => {
       url: `/api/appointments/${id}`,
     }).then(() => dispatch({ type: SET_INTERVIEW, id, interview: null }));
   }
-
   return {
     state,
     setDay,
