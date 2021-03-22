@@ -62,14 +62,16 @@ export const useApplicationData = () => {
       axios.get("/api/days"),
       axios.get("/api/appointments"),
       axios.get("/api/interviewers"),
-    ]).then((all) => {
-      dispatch({
-        type: SET_APPLICATION_DATA,
-        days: all[0].data,
-        appointments: all[1].data,
-        interviewers: all[2].data,
-      });
-    });
+    ])
+      .then((all) => {
+        dispatch({
+          type: SET_APPLICATION_DATA,
+          days: all[0].data,
+          appointments: all[1].data,
+          interviewers: all[2].data,
+        });
+      })
+      .catch((err) => err);
   }, []);
 
   useWebSockets(dispatch);
