@@ -81,20 +81,17 @@ export const useApplicationData = () => {
   }
 
   function bookInterview(id, interview) {
-    return axios({
-      method: "PUT",
-      url: `/api/appointments/${id}`,
-      data: {
+    return axios
+      .put(`/api/appointments/${id}`, {
         interview,
-      },
-    }).then(() => dispatch({ type: SET_INTERVIEW, id, interview }));
+      })
+      .then(() => dispatch({ type: SET_INTERVIEW, id, interview }));
   }
 
   function cancelInterview(id) {
-    return axios({
-      method: "DELETE",
-      url: `/api/appointments/${id}`,
-    }).then(() => dispatch({ type: SET_INTERVIEW, id, interview: null }));
+    return axios
+      .delete(`/api/appointments/${id}`)
+      .then(() => dispatch({ type: SET_INTERVIEW, id, interview: null }));
   }
   return {
     state,
