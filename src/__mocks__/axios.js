@@ -85,9 +85,11 @@ export default {
     }
   }),
   put: jest.fn().mockImplementation((url) => {
-    if (url === "/api/appointments/1") {
-      /* Resolve appointments data */
-      return Promise.resolve({ status: 204, statusText: "No Content" });
-    }
+    /* Resolve appointments data */
+    return Promise.resolve({ status: 204, statusText: "No Content" });
+  }),
+  delete: jest.fn().mockImplementation((url) => {
+    /* Resolve appointments data */
+    return Promise.resolve({ status: 204, statusText: "No Content" });
   }),
 };
