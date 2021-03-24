@@ -36,6 +36,14 @@ function reducer(state, action) {
   }
 }
 
+/**
+ * This function returns a copy of the state's days object with updated
+ * interview spots
+ * @param {object} state - The state
+ * @param {object} appointments - The new appointments object that will be
+ * injected into the state
+ * @returns
+ */
 function spotsRemaining(state, appointments) {
   return state.days.map((day) => {
     const maxAppointments = day.appointments.length;
@@ -50,6 +58,11 @@ function spotsRemaining(state, appointments) {
   });
 }
 
+/**
+ * Custom hook handling state and interaction with the api routes and the
+ * database
+ * @returns
+ */
 export const useApplicationData = () => {
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
@@ -77,10 +90,21 @@ export const useApplicationData = () => {
 
   useWebSockets(dispatch);
 
+  /**
+   * This function changes the selected day
+   * @param {string} day
+   */
   function setDay(day) {
     dispatch({ type: SET_DAY, day });
   }
 
+  /**
+   * This function create/edit an interview in the database and then reflect
+   * that change in the state
+   * @param {interger} id - appointment slot id
+   * @param {object} interview - interview details to be saved in the appointment slot
+   *
+   */
   function bookInterview(id, interview) {
     return axios
       .put(`/api/appointments/${id}`, {
@@ -88,7 +112,12 @@ export const useApplicationData = () => {
       })
       .then(() => dispatch({ type: SET_INTERVIEW, id, interview }));
   }
-
+  /**
+   * This function deletes an interview in the database and then reflect
+   * that change in the state
+   * @param {interger} id - appointment slot id
+   *
+   */
   function cancelInterview(id) {
     return axios
       .delete(`/api/appointments/${id}`)
