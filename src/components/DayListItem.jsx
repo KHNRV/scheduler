@@ -19,22 +19,17 @@ export default function DayListItem(props) {
    * @param {integer} spots
    * @returns
    */
-  const spotsRemaing = (spots) => {
-    if (spots === 0) {
-      return `no spots remaining`;
-    } else if (spots === 1) {
+  const spotsRemainingString = (spots) => {
+    if (spots === 1) {
       return `1 spot remaining`;
-    } else if (spots > 1) {
-      return `${spots} spots remaining`;
-    } else {
-      return "";
     }
+    return `${spots ? spots : "no"} spots remaining`;
   };
 
   return (
     <li onClick={() => setDay(name)} className={classes} data-testid="day">
       <h2 className="text--regular">{name}</h2>
-      <h3 className="text--light">{spotsRemaing(spots)}</h3>
+      <h3 className="text--light">{spotsRemainingString(spots)}</h3>
     </li>
   );
 }
