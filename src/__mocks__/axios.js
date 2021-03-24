@@ -56,7 +56,7 @@ const fixtures = {
 export default {
   defaults: { baseURL: "" },
   whatever: true,
-  get: jest.fn().mockImplementation((url) => {
+  get: jest.fn((url) => {
     console.log("URL", url);
     if (url === "/api/days") {
       return Promise.resolve({
@@ -84,11 +84,11 @@ export default {
       });
     }
   }),
-  put: jest.fn().mockImplementation((url) => {
+  put: jest.fn((url) => {
     /* Resolve appointments data */
     return Promise.resolve({ status: 204, statusText: "No Content" });
   }),
-  delete: jest.fn().mockImplementation((url) => {
+  delete: jest.fn((url) => {
     /* Resolve appointments data */
     return Promise.resolve({ status: 204, statusText: "No Content" });
   }),
