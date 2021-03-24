@@ -38,13 +38,14 @@ function reducer(state, action) {
 
 function spotsRemaining(state, appointments) {
   return state.days.map((day) => {
+    const maxAppointments = day.appointments.length;
     const copyDay = { ...day };
     copyDay.spots = day.appointments.reduce((acc, curr) => {
       if (appointments[curr].interview) {
         return acc - 1;
       }
       return acc;
-    }, 5);
+    }, maxAppointments);
     return copyDay;
   });
 }
