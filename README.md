@@ -6,12 +6,14 @@ Interview Scheduler is a React based web-app allowing users to book practice tec
 
 ## Screenshots
 ![UI][new_appointment]
-
+---
 ![Booking an interview][booking_interview]
-
+---
 ![Canceling an interview][canceling_interview]
-
+---
 ![Live Update][live_update]
+---
+
 
 
 [booking_interview]: ./docs/booking_interview.gif
